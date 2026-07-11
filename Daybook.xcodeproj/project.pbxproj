@@ -1,0 +1,275 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* DaybookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* DaybookApp.swift */; };
+		A10000000000000000000002 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* Models.swift */; };
+		A10000000000000000000003 /* ArchiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* ArchiveStore.swift */; };
+		A10000000000000000000004 /* MoodSuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* MoodSuggestionService.swift */; };
+		A10000000000000000000005 /* DaybookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* DaybookViewModel.swift */; };
+		A10000000000000000000006 /* ComposeEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000016 /* ComposeEntryView.swift */; };
+		A10000000000000000000007 /* RetroTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000017 /* RetroTheme.swift */; };
+		A10000000000000000000008 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000018 /* RootView.swift */; };
+		A10000000000000000000009 /* SealedEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000019 /* SealedEntryView.swift */; };
+		A1000000000000000000000A /* DailyHeadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001A /* DailyHeadingService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1000000000000000000000F /* Daybook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Daybook.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Daybook/Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000011 /* DaybookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/DaybookApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000012 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Models.swift; sourceTree = "<group>"; };
+		A10000000000000000000013 /* ArchiveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/ArchiveStore.swift; sourceTree = "<group>"; };
+		A10000000000000000000014 /* MoodSuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/MoodSuggestionService.swift; sourceTree = "<group>"; };
+		A10000000000000000000015 /* DaybookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/ViewModels/DaybookViewModel.swift; sourceTree = "<group>"; };
+		A10000000000000000000016 /* ComposeEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/ComposeEntryView.swift; sourceTree = "<group>"; };
+		A10000000000000000000017 /* RetroTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/RetroTheme.swift; sourceTree = "<group>"; };
+		A10000000000000000000018 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/RootView.swift; sourceTree = "<group>"; };
+		A10000000000000000000019 /* SealedEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/SealedEntryView.swift; sourceTree = "<group>"; };
+		A1000000000000000000001A /* DailyHeadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/DailyHeadingService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10000000000000000000020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000021 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000022 /* App */,
+				A10000000000000000000023 /* Source Files */,
+				A10000000000000000000024 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000022 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000010 /* Info.plist */,
+			);
+			path = Daybook;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000023 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000011 /* DaybookApp.swift */,
+				A10000000000000000000012 /* Models.swift */,
+				A10000000000000000000013 /* ArchiveStore.swift */,
+				A10000000000000000000014 /* MoodSuggestionService.swift */,
+				A1000000000000000000001A /* DailyHeadingService.swift */,
+				A10000000000000000000015 /* DaybookViewModel.swift */,
+				A10000000000000000000016 /* ComposeEntryView.swift */,
+				A10000000000000000000017 /* RetroTheme.swift */,
+				A10000000000000000000018 /* RootView.swift */,
+				A10000000000000000000019 /* SealedEntryView.swift */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		A10000000000000000000024 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000F /* Daybook.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000025 /* Daybook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000026 /* Build configuration list for PBXNativeTarget "Daybook" */;
+			buildPhases = (
+				A10000000000000000000027 /* Sources */,
+				A10000000000000000000020 /* Frameworks */,
+				A10000000000000000000028 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Daybook;
+			productName = Daybook;
+			productReference = A1000000000000000000000F /* Daybook.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000029 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A10000000000000000000025 = {
+						CreatedOnToolsVersion = 26.0;
+					};
+				};
+			};
+			buildConfigurationList = A1000000000000000000002A /* Build configuration list for PBXProject "Daybook" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10000000000000000000021;
+			productRefGroup = A10000000000000000000024 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000025 /* Daybook */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000028 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000027 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* DaybookApp.swift in Sources */,
+				A10000000000000000000002 /* Models.swift in Sources */,
+				A10000000000000000000003 /* ArchiveStore.swift in Sources */,
+				A10000000000000000000004 /* MoodSuggestionService.swift in Sources */,
+				A10000000000000000000005 /* DaybookViewModel.swift in Sources */,
+				A10000000000000000000006 /* ComposeEntryView.swift in Sources */,
+				A10000000000000000000007 /* RetroTheme.swift in Sources */,
+				A10000000000000000000008 /* RootView.swift in Sources */,
+				A10000000000000000000009 /* SealedEntryView.swift in Sources */,
+				A1000000000000000000000A /* DailyHeadingService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1000000000000000000002B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A1000000000000000000002C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		A1000000000000000000002D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				DEVELOPMENT_ASSET_PATHS = "\"\"";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Daybook/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ikhyunkwon.Daybook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A1000000000000000000002E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				DEVELOPMENT_ASSET_PATHS = "\"\"";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Daybook/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ikhyunkwon.Daybook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1000000000000000000002A /* Build configuration list for PBXProject "Daybook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000000000000000000002B /* Debug */,
+				A1000000000000000000002C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000026 /* Build configuration list for PBXNativeTarget "Daybook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000000000000000000002D /* Debug */,
+				A1000000000000000000002E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10000000000000000000029 /* Project object */;
+}

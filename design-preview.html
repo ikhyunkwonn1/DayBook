@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diary App Visual Preview</title>
+  <style>
+    :root {
+      --paper: #f7f7f3;
+      --ink: #282720;
+      --muted: #85847c;
+      --rule: #dfdfd8;
+      --coral: #eb7a54;
+      --green: #4b9d63;
+      --gold: #aa9a2d;
+      --lilac: #9b96dc;
+      --blue: #3d63ee;
+      --peach: #d5a58f;
+      --tile-blue: #cdd9ed;
+      --tile-mint: #c8e4da;
+      --tile-pink: #efcfd5;
+      --tile-gold: #dfcf8c;
+      --tile-lilac: #d7d1ef;
+      --tile-green: #bde1c3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 1080px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      width: min(1420px, calc(100vw - 72px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .utility-bar,
+    .hero-meta,
+    .section-heading,
+    .entry-footer,
+    .entry-card__meta,
+    .profile-tile__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .utility-bar {
+      min-height: 48px;
+      border-bottom: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: -.01em;
+    }
+
+    .wordmark {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -.04em;
+    }
+
+    .utility-note { text-transform: uppercase; letter-spacing: .08em; }
+
+    .hero {
+      position: relative;
+      padding: 66px 0 34px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-art {
+      width: 100%;
+      height: 280px;
+      overflow: visible;
+      cursor: default;
+    }
+
+    .loop {
+      fill: none;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+      opacity: .96;
+    }
+
+    .loop--coral { stroke: var(--coral); }
+    .loop--green { stroke: var(--green); }
+    .loop--gold { stroke: var(--gold); }
+    .loop--lilac { stroke: var(--lilac); }
+    .loop--ink { stroke: var(--ink); }
+    .loop--peach { stroke: var(--peach); }
+    .loop--blue { stroke: var(--blue); }
+
+    .hero:hover .loop { animation: drift 3.6s ease-in-out infinite alternate; }
+    .hero:hover .loop:nth-child(2n) { animation-direction: alternate-reverse; }
+    .hero:hover .loop:nth-child(3n) { animation-duration: 4.8s; }
+
+    @keyframes drift {
+      from { transform: translateX(-8px) rotate(-.2deg); }
+      to { transform: translateX(8px) rotate(.2deg); }
+    }
+
+    .hero-meta {
+      padding: 5px 7.5%;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-meta strong { color: var(--ink); font-weight: 500; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.72fr) minmax(330px, .84fr);
+      gap: 48px;
+      padding-top: 46px;
+    }
+
+    .section-heading {
+      height: 46px;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      font-size: 12px;
+    }
+
+    .section-heading h1,
+    .section-heading h2,
+    .section-heading p { margin: 0; font: inherit; }
+    .section-heading h1 { font-weight: 600; }
+    .section-heading p { color: var(--muted); }
+
+    .calendar-tools {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .month { color: var(--ink); font-weight: 500; }
+    .nav-glyph { color: var(--muted); font-size: 18px; line-height: 1; }
+
+    .weekdays,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .weekdays {
+      height: 40px;
+      align-items: center;
+      color: var(--muted);
+      border-bottom: 1px solid var(--rule);
+      font-size: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .calendar-grid { gap: 10px; padding-top: 10px; }
+
+    .day-tile {
+      position: relative;
+      aspect-ratio: 1 / .92;
+      min-height: 82px;
+      overflow: hidden;
+      padding: 10px;
+      border: 1px solid var(--rule);
+      background: #fafaf7;
+    }
+
+    .day-tile::after,
+    .profile-tile::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      opacity: .48;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, .52) 0,
+        rgba(255, 255, 255, .52) 1px,
+        rgba(38, 37, 32, .07) 1px,
+        rgba(38, 37, 32, .07) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+    }
+
+    .day-tile--empty::after { display: none; }
+    .day-tile--outside { color: #b4b3ad; background: #f4f4ef; }
+    .day-tile--selected { border: 2px solid var(--ink); padding: 9px; }
+    .day-tile--gold { background: var(--tile-gold); }
+    .day-tile--lilac { background: var(--tile-lilac); }
+    .day-tile--green { background: var(--tile-green); }
+    .day-tile--blue { background: var(--tile-blue); }
+    .day-tile--mint { background: var(--tile-mint); }
+    .day-tile--pink { background: var(--tile-pink); }
+
+    .day-number { position: relative; z-index: 1; font-size: 14px; font-weight: 500; }
+    .day-mood {
+      position: absolute;
+      z-index: 1;
+      bottom: 9px;
+      left: 10px;
+      color: rgba(40, 39, 32, .72);
+      font-size: 10px;
+    }
+
+    .archive-list { margin-top: 38px; }
+    .entry-card { padding: 17px 0; border-bottom: 1px solid var(--rule); }
+    .entry-card:first-of-type { border-top: 0; }
+    .entry-card__meta { color: var(--muted); font-size: 11px; }
+    .entry-card__meta b { color: var(--ink); font-weight: 500; }
+    .entry-card p { max-width: 84%; margin: 9px 0 0; font-size: 13px; line-height: 1.4; }
+    .mood-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--gold); }
+    .mood-dot--lilac { background: var(--lilac); }
+    .mood-dot--green { background: var(--green); }
+
+    .editor-copy {
+      min-height: 278px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+      color: #55544e;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.48;
+    }
+
+    .editor-copy .faint { color: #a2a199; }
+
+    .entry-footer { min-height: 61px; color: var(--muted); font-size: 10px; }
+    .entry-footer button {
+      min-width: 150px;
+      padding: 10px 16px;
+      border: 0;
+      color: #f7f7f3;
+      background: var(--ink);
+      font: inherit;
+      cursor: default;
+    }
+
+    .mood-panel { margin-top: 36px; }
+    .mood-panel .section-heading { border-bottom: 0; }
+    .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 10px; }
+    .profile-tile {
+      position: relative;
+      min-height: 126px;
+      overflow: hidden;
+      padding: 11px;
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      background: var(--tile-blue);
+    }
+    .profile-tile--gold { background: var(--tile-gold); }
+    .profile-tile--lilac { background: var(--tile-lilac); }
+    .profile-tile--green { background: var(--tile-green); }
+    .profile-tile--mint { background: var(--tile-mint); }
+    .profile-tile--pink { background: var(--tile-pink); }
+    .profile-tile__symbol { position: absolute; right: 11px; bottom: 13px; z-index: 1; font-size: 35px; font-weight: 300; opacity: .55; }
+    .profile-tile__meta { position: relative; z-index: 1; gap: 4px; font-size: 10px; }
+    .profile-tile__meta span:last-child { color: rgba(40, 39, 32, .55); }
+
+    .quick-note {
+      margin-top: 36px;
+      padding: 17px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .quick-note b { display: block; margin-bottom: 3px; color: var(--ink); font-weight: 500; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="utility-bar">
+      <div class="wordmark">daybook</div>
+      <div class="utility-note">a calendar for private thoughts</div>
+      <div>July 12, 2026</div>
+    </header>
+
+    <section class="hero" aria-label="Diary visual identity">
+      <svg class="hero-art" viewBox="0 0 1400 280" role="img" aria-label="Colorful continuous looping lines">
+        <path class="loop loop--coral" d="M32,149 C48,64 235,53 260,85 C287,120 77,179 214,212 C293,231 305,175 261,143" />
+        <path class="loop loop--green" d="M195,211 C184,134 276,38 378,62 C455,81 339,214 215,208" />
+        <path class="loop loop--gold" d="M360,60 C398,25 383,237 456,213 C510,195 543,9 572,64 C605,127 488,249 428,204" />
+        <path class="loop loop--lilac" d="M566,148 C589,42 704,52 746,108 C786,165 729,228 662,195 C587,159 674,15 744,59 C812,103 754,205 696,211" />
+        <path class="loop loop--ink" d="M705,212 C741,154 805,81 846,62 C892,41 738,254 708,213" />
+        <path class="loop loop--peach" d="M824,182 C849,142 935,71 951,79 C971,89 879,152 878,181 C877,214 1044,213 1076,183 C1098,162 949,215 829,182" />
+        <path class="loop loop--blue" d="M1021,89 C1070,64 1245,55 1278,66 C1312,77 1082,96 1071,116 C1055,143 1277,164 1279,203 C1281,230 1124,213 1032,212" />
+      </svg>
+      <div class="hero-meta">
+        <span><strong>Daybook</strong> is a one-day-at-a-time diary.</span>
+        <span>Hover the lines to let the day move.</span>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <section aria-labelledby="calendar-title">
+        <div class="section-heading">
+          <h1 id="calendar-title">Calendar</h1>
+          <div class="calendar-tools"><span class="nav-glyph">&lsaquo;</span><span class="month">July 2026</span><span class="nav-glyph">&rsaquo;</span></div>
+        </div>
+        <div class="weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+        <div class="calendar-grid" aria-label="July 2026 calendar preview">
+          <div class="day-tile day-tile--outside day-tile--empty"><span class="day-number">29</span></div>
+          <div class="day-tile day-tile--outside day-tile--empty"><span class="day-number">30</span></div>
+          <div class="day-tile day-tile--gold"><span class="day-number">1</span><span class="day-mood">bright</span></div>
+          <div class="day-tile day-tile--lilac"><span class="day-number">2</span><span class="day-mood">dreamy</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">3</span></div>
+          <div class="day-tile day-tile--green"><span class="day-number">4</span><span class="day-mood">calm</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">5</span></div>
+          <div class="day-tile day-tile--blue"><span class="day-number">6</span><span class="day-mood">focused</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">7</span></div>
+          <div class="day-tile day-tile--pink"><span class="day-number">8</span><span class="day-mood">tender</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">9</span></div>
+          <div class="day-tile day-tile--mint"><span class="day-number">10</span><span class="day-mood">clear</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">11</span></div>
+          <div class="day-tile day-tile--selected"><span class="day-number">12</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">13</span></div>
+          <div class="day-tile day-tile--gold"><span class="day-number">14</span><span class="day-mood">bright</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">15</span></div>
+          <div class="day-tile day-tile--lilac"><span class="day-number">16</span><span class="day-mood">dreamy</span></div>
+          <div class="day-tile day-tile--green"><span class="day-number">17</span><span class="day-mood">calm</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">18</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">19</span></div>
+          <div class="day-tile day-tile--blue"><span class="day-number">20</span><span class="day-mood">focused</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">21</span></div>
+          <div class="day-tile day-tile--pink"><span class="day-number">22</span><span class="day-mood">tender</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">23</span></div>
+          <div class="day-tile day-tile--mint"><span class="day-number">24</span><span class="day-mood">clear</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">25</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">26</span></div>
+          <div class="day-tile day-tile--gold"><span class="day-number">27</span><span class="day-mood">bright</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">28</span></div>
+          <div class="day-tile day-tile--lilac"><span class="day-number">29</span><span class="day-mood">dreamy</span></div>
+          <div class="day-tile day-tile--empty"><span class="day-number">30</span></div>
+          <div class="day-tile day-tile--green"><span class="day-number">31</span><span class="day-mood">calm</span></div>
+          <div class="day-tile day-tile--outside day-tile--empty"><span class="day-number">1</span></div>
+          <div class="day-tile day-tile--outside day-tile--empty"><span class="day-number">2</span></div>
+        </div>
+
+        <div class="archive-list">
+          <div class="section-heading"><h2>Archived days</h2><p>six selected fragments</p></div>
+          <article class="entry-card"><div class="entry-card__meta"><b>Jul 10</b><span class="mood-dot mood-dot--green"></span></div><p>The room finally felt quiet enough to hear myself think.</p></article>
+          <article class="entry-card"><div class="entry-card__meta"><b>Jul 08</b><span class="mood-dot mood-dot--lilac"></span></div><p>A small, necessary detour turned into the whole afternoon.</p></article>
+          <article class="entry-card"><div class="entry-card__meta"><b>Jul 06</b><span class="mood-dot"></span></div><p>Made a list, crossed off one line, called that momentum.</p></article>
+        </div>
+      </section>
+
+      <aside aria-labelledby="entry-title">
+        <div class="section-heading"><h2 id="entry-title">Sunday, July 12</h2><p>unsealed</p></div>
+        <div class="editor-copy">The day feels <span class="faint">unfinished in a good way.</span><br><br>There is still enough evening left to make something of it.</div>
+        <div class="entry-footer"><span>write once, keep forever</span><button>Seal entry</button></div>
+
+        <section class="mood-panel" aria-labelledby="mood-title">
+          <div class="section-heading"><h2 id="mood-title">Mood cards</h2><p>today's palette</p></div>
+          <div class="mood-grid">
+            <div class="profile-tile profile-tile--gold"><div class="profile-tile__meta"><span>Bright</span><span>sun</span></div><div class="profile-tile__symbol">*</div></div>
+            <div class="profile-tile profile-tile--lilac"><div class="profile-tile__meta"><span>Dreamy</span><span>moon</span></div><div class="profile-tile__symbol">~</div></div>
+            <div class="profile-tile profile-tile--green"><div class="profile-tile__meta"><span>Calm</span><span>leaf</span></div><div class="profile-tile__symbol">/</div></div>
+            <div class="profile-tile"><div class="profile-tile__meta"><span>Focused</span><span>pencil</span></div><div class="profile-tile__symbol">+</div></div>
+            <div class="profile-tile profile-tile--mint"><div class="profile-tile__meta"><span>Clear</span><span>air</span></div><div class="profile-tile__symbol">o</div></div>
+            <div class="profile-tile profile-tile--pink"><div class="profile-tile__meta"><span>Tender</span><span>heart</span></div><div class="profile-tile__symbol">&lt;3</div></div>
+          </div>
+        </section>
+
+        <div class="quick-note"><b>Archive format</b>Compressed, immutable entry file. No edits after sealing.</div>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

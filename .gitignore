@@ -1,0 +1,13 @@
+.DS_Store
+
+# Swift Package Manager build output
+.build/
+.swiftpm/
+
+# Xcode and SwiftPM user-local state
+*.xcuserstate
+xcuserdata/
+
+# Editor noise
+.idea/
+.vscode/
