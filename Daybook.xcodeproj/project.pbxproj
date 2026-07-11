@@ -17,6 +17,7 @@
 		A10000000000000000000008 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000018 /* RootView.swift */; };
 		A10000000000000000000009 /* SealedEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000019 /* SealedEntryView.swift */; };
 		A1000000000000000000000A /* DailyHeadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001A /* DailyHeadingService.swift */; };
+		A1000000000000000000001B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		A10000000000000000000018 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/RootView.swift; sourceTree = "<group>"; };
 		A10000000000000000000019 /* SealedEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/SealedEntryView.swift; sourceTree = "<group>"; };
 		A1000000000000000000001A /* DailyHeadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/DailyHeadingService.swift; sourceTree = "<group>"; };
+		A1000000000000000000001C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				A10000000000000000000010 /* Info.plist */,
+				A1000000000000000000001C /* Assets.xcassets */,
 			);
 			path = Daybook;
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1000000000000000000001B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

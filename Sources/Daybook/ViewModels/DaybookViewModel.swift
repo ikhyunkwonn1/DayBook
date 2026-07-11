@@ -52,10 +52,6 @@ final class DaybookViewModel: ObservableObject {
         entries.first { calendar.isDate($0.date, inSameDayAs: selectedDate) }
     }
 
-    var isSelectedDateSealed: Bool {
-        selectedEntry != nil
-    }
-
     var calendarDays: [CalendarDay] {
         let monthInterval = calendar.dateInterval(of: .month, for: displayedMonth) ?? DateInterval()
         let firstDay = monthInterval.start
@@ -109,38 +105,11 @@ final class DaybookViewModel: ObservableObject {
         suggestions = suggestionService.suggest(for: text)
     }
 
-    func applySuggestedMood(_ suggestion: MoodSuggestion) {
-        draft.moodCard = suggestion.card
-        customMoodLabel = suggestion.card.label
-        customMoodColorHex = suggestion.card.colorHex
-        customMoodIcon = suggestion.card.icon
-        statusMessage = suggestion.reason
-    }
-
-    func applyPreset(_ preset: MoodPreset) {
-        let card = preset.card
-        draft.moodCard = card
-        customMoodLabel = card.label
-        customMoodColorHex = card.colorHex
-        customMoodIcon = card.icon
-    }
-
-    func applyCustomMood() {
-        let label = customMoodLabel.trimmed()
-        guard !label.isEmpty else {
-            draft.moodCard = nil
-            return
-        }
-
-        draft.moodCard = MoodCard(label: label, colorHex: customMoodColorHex, icon: customMoodIcon.trimmed().isEmpty ? "tag.fill" : customMoodIcon.trimmed())
-    }
-
-    func sealSelectedDate(with moodCard: MoodCard? = nil) {
+    func sealSelectedDate(with moodCard: MoodCard?) {
         draft.moodCard = moodCard
 
         do {
             let entry = try archiveStore.create(from: draft)
-            statusMessage = "Entry sealed into a compressed archive."
             errorMessage = nil
             reloadEntries()
             selectDate(entry.date)

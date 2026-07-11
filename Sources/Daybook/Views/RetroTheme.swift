@@ -9,12 +9,6 @@ enum EditorialPalette {
     static let muted = Color(red: 0.52, green: 0.518, blue: 0.486)
     static let rule = Color(red: 0.865, green: 0.865, blue: 0.835)
 
-    static let coral = Color(red: 0.922, green: 0.478, blue: 0.329)
-    static let green = Color(red: 0.294, green: 0.616, blue: 0.388)
-    static let gold = Color(red: 0.667, green: 0.604, blue: 0.176)
-    static let lilac = Color(red: 0.608, green: 0.588, blue: 0.863)
-    static let blue = Color(red: 0.239, green: 0.388, blue: 0.933)
-    static let peach = Color(red: 0.835, green: 0.647, blue: 0.561)
     static let warning = Color(red: 0.92, green: 0.79, blue: 0.49)
 }
 

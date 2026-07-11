@@ -3,7 +3,6 @@ import Foundation
 
 protocol ArchiveStore {
     func listEntries() throws -> [SealedDiaryEntry]
-    func entry(for date: Date) throws -> SealedDiaryEntry?
     func create(from draft: DiaryEntryDraft) throws -> SealedDiaryEntry
     func readPayload(for entry: SealedDiaryEntry) throws -> ArchivedEntryPayload
     func export(entry: SealedDiaryEntry, to destinationURL: URL) throws
@@ -52,16 +51,10 @@ final class LocalArchiveStore: ArchiveStore {
         return entries.sorted { $0.date > $1.date }
     }
 
-    func entry(for date: Date) throws -> SealedDiaryEntry? {
-        let key = date.diaryKey(calendar: calendar)
-        return try loadIndex().entries.first { $0.date.diaryKey(calendar: calendar) == key }
-    }
-
     func create(from draft: DiaryEntryDraft) throws -> SealedDiaryEntry {
         let text = draft.text.trimmed()
         guard !text.isEmpty else { throw DiaryError.emptyText }
 
-        try ensureStorage()
         var index = try loadIndex()
         let key = draft.date.diaryKey(calendar: calendar)
 

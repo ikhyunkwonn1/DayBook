@@ -11,3 +11,6 @@ xcuserdata/
 # Editor noise
 .idea/
 .vscode/
+
+# Local design source files
+Daybook/DaybookIcon-source.png
