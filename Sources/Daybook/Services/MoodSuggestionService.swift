@@ -44,10 +44,11 @@ struct LocalMoodSuggestionService: MoodSuggestionService {
     ]
 
     func suggest(for text: String) -> [MoodSuggestion] {
-        let lowercased = text.lowercased()
+        // Whole words only: substring matching made "chocolate" restless and "restaurant" calm.
+        let words = Set(text.lowercased().split { !$0.isLetter }.map(String.init))
         let ranked = mappings.compactMap { mapping -> (MoodSuggestion, Int)? in
             let matches = mapping.keywords.reduce(into: 0) { count, keyword in
-                if lowercased.contains(keyword) {
+                if words.contains(keyword) {
                     count += 1
                 }
             }

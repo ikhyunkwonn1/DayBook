@@ -43,6 +43,7 @@ struct ComposeEntryView: View {
                     isMoodSheetPresented = true
                 }
                 .buttonStyle(EditorialPrimaryButtonStyle())
+                .disabled(viewModel.draft.text.trimmed().isEmpty)
             }
             .padding(.top, 16)
         }
@@ -72,6 +73,7 @@ private struct MoodSelectionSheet: View {
     @State private var moodLabel: String
     @State private var moodColorHex: String
     @State private var moodIcon: String
+    @State private var isConfirmingSeal = false
 
     init(viewModel: DaybookViewModel) {
         self.viewModel = viewModel
@@ -102,7 +104,7 @@ private struct MoodSelectionSheet: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Choose a mood")
                                 .font(.system(size: 22, weight: .medium, design: .serif))
-                            Text("OPTIONAL BEFORE SEALING")
+                            Text("THE MOOD IS OPTIONAL. SEALING CANNOT BE UNDONE.")
                                 .font(.system(size: 10, weight: .regular, design: .default))
                                 .foregroundStyle(EditorialPalette.muted)
                                 .tracking(1)
@@ -187,10 +189,10 @@ private struct MoodSelectionSheet: View {
                         Spacer()
 
                         Button("Seal entry") {
-                            viewModel.sealSelectedDate(with: selectedMood)
-                            dismiss()
+                            isConfirmingSeal = true
                         }
                         .buttonStyle(EditorialPrimaryButtonStyle())
+                        .disabled(viewModel.draft.text.trimmed().isEmpty)
                     }
                     .padding(.top, 22)
                 }
@@ -198,6 +200,20 @@ private struct MoodSelectionSheet: View {
             }
         }
         .frame(minWidth: 560, idealWidth: 620, minHeight: 690, idealHeight: 760)
+        .confirmationDialog(
+            "Seal this day?",
+            isPresented: $isConfirmingSeal,
+            titleVisibility: .visible
+        ) {
+            Button("Seal entry", role: .destructive) {
+                if viewModel.sealSelectedDate(with: selectedMood) {
+                    dismiss()
+                }
+            }
+            Button("Keep writing", role: .cancel) {}
+        } message: {
+            Text("Once sealed, this day becomes read-only. It cannot be edited or deleted.")
+        }
     }
 
     private func select(_ mood: MoodCard) {

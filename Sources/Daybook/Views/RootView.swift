@@ -21,6 +21,8 @@ struct RootView: View {
                                 payload: payload,
                                 onExport: viewModel.exportSelectedEntry
                             )
+                        } else if viewModel.isSelectedDateInFuture {
+                            FutureDayView(viewModel: viewModel)
                         } else {
                             ComposeEntryView(viewModel: viewModel)
                         }
@@ -33,10 +35,20 @@ struct RootView: View {
     }
 }
 
+private let calendarColumns = Array(repeating: GridItem(.flexible(), spacing: 7), count: 7)
+private let monthGridHeight: CGFloat = 6 * 62 + 5 * 7
+private let calendarTrailingInset: CGFloat = 12
+
 private struct CalendarSidebarView: View {
     @ObservedObject var viewModel: DaybookViewModel
 
-    private let weekdaySymbols = Calendar.current.shortStandaloneWeekdaySymbols
+    private let months = MonthID.range(around: Date(), radius: 600, calendar: .current)
+    private let todayMonth = MonthID(date: Date(), calendar: .current)
+
+    @State private var visibleMonth: MonthID? = MonthID(date: Date(), calendar: .current)
+    /// `scrollPosition` reports nil while a scroll is unresolvable; without this the title would
+    /// snap back to today's month mid-scroll.
+    @State private var lastResolvedMonth = MonthID(date: Date(), calendar: .current)
 
     var body: some View {
         ZStack {
@@ -45,7 +57,7 @@ private struct CalendarSidebarView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("daybook")
+                        Text("DayBook")
                             .font(.system(size: 21, weight: .semibold, design: .default))
                         Text("A calendar for private thoughts")
                             .font(.system(size: 10, weight: .regular, design: .default))
@@ -57,6 +69,9 @@ private struct CalendarSidebarView: View {
 
                     Button("Today") {
                         viewModel.jumpToToday()
+                        withAnimation(.easeInOut(duration: 0.35)) {
+                            visibleMonth = todayMonth
+                        }
                     }
                     .buttonStyle(EditorialTextButtonStyle())
                 }
@@ -64,54 +79,44 @@ private struct CalendarSidebarView: View {
 
                 EditorialRule()
 
-                HStack {
-                    Button {
-                        viewModel.showPreviousMonth()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                    }
-                    .buttonStyle(EditorialIconButtonStyle())
-
-                    Spacer()
-
-                    Text(viewModel.monthTitle)
-                        .font(.system(size: 15, weight: .medium, design: .default))
-
-                    Spacer()
-
-                    Button {
-                        viewModel.showNextMonth()
-                    } label: {
-                        Image(systemName: "chevron.right")
-                    }
-                    .buttonStyle(EditorialIconButtonStyle())
-                }
-                .padding(.vertical, 10)
+                Text((visibleMonth ?? lastResolvedMonth).title(calendar: viewModel.calendar))
+                    .font(.system(size: 15, weight: .medium, design: .default))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 10)
 
                 EditorialRule()
 
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 7), count: 7), spacing: 7) {
-                    ForEach(weekdaySymbols, id: \.self) { symbol in
+                LazyVGrid(columns: calendarColumns, spacing: 7) {
+                    ForEach(viewModel.orderedWeekdaySymbols, id: \.self) { symbol in
                         Text(symbol.uppercased())
                             .font(.system(size: 9, weight: .medium, design: .default))
                             .foregroundStyle(EditorialPalette.muted)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
                     }
+                }
+                .padding(.trailing, calendarTrailingInset)
 
-                    ForEach(viewModel.calendarDays) { day in
-                        DayCell(
-                            day: day,
-                            isSelected: viewModel.calendar.isDate(day.date, inSameDayAs: viewModel.selectedDate),
-                            entry: viewModel.entries.first { viewModel.calendar.isDate($0.date, inSameDayAs: day.date) }
-                        )
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            viewModel.selectDate(day.date)
+                ScrollView {
+                    LazyVStack(spacing: 7) {
+                        ForEach(months) { month in
+                            MonthGrid(viewModel: viewModel, month: month)
                         }
+                    }
+                    .scrollTargetLayout()
+                }
+                .scrollPosition(id: $visibleMonth, anchor: .top)
+                .scrollIndicators(.never)
+                .frame(height: monthGridHeight)
+                .overlay(alignment: .top) { ScrollEdgeFade(edge: .top) }
+                .overlay(alignment: .bottom) { ScrollEdgeFade(edge: .bottom) }
+                .onChange(of: visibleMonth) { _, month in
+                    if let month {
+                        lastResolvedMonth = month
                     }
                 }
                 .padding(.top, 2)
+                .padding(.trailing, calendarTrailingInset)
 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
@@ -128,12 +133,14 @@ private struct CalendarSidebarView: View {
 
                     ScrollView {
                         LazyVStack(spacing: 0) {
-                            ForEach(viewModel.entries.prefix(8)) { entry in
+                            ForEach(viewModel.entries) { entry in
                                 EntryPreviewCard(entry: entry)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        viewModel.displayedMonth = entry.date
                                         viewModel.selectDate(entry.date)
+                                        withAnimation(.easeInOut(duration: 0.35)) {
+                                            visibleMonth = MonthID(date: entry.date, calendar: viewModel.calendar)
+                                        }
                                     }
                             }
                         }
@@ -147,16 +154,69 @@ private struct CalendarSidebarView: View {
     }
 }
 
+/// Fades the scroller into the paper at its edges, so a calendar with no scrollbar still reads
+/// as something that scrolls.
+private struct ScrollEdgeFade: View {
+    let edge: VerticalEdge
+
+    var body: some View {
+        LinearGradient(
+            colors: [EditorialPalette.paper, EditorialPalette.paper.opacity(0)],
+            startPoint: edge == .top ? .top : .bottom,
+            endPoint: edge == .top ? .bottom : .top
+        )
+        .frame(height: 16)
+        .allowsHitTesting(false)
+    }
+}
+
+private struct MonthGrid: View {
+    @ObservedObject var viewModel: DaybookViewModel
+    let month: MonthID
+
+    var body: some View {
+        LazyVGrid(columns: calendarColumns, spacing: 7) {
+            ForEach(viewModel.calendarDays(for: month)) { day in
+                if day.isInDisplayedMonth {
+                    DayCell(
+                        day: day,
+                        isSelected: viewModel.calendar.isDate(day.date, inSameDayAs: viewModel.selectedDate),
+                        isToday: viewModel.calendar.isDateInToday(day.date),
+                        entry: viewModel.entry(on: day.date)
+                    )
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.selectDate(day.date)
+                    }
+                } else {
+                    Color.clear
+                        .frame(minHeight: 62)
+                }
+            }
+        }
+        // Overlay, never a header row: a real row would change the item height and bring back
+        // the launch flash the uniform 42-cell grid exists to prevent.
+        .overlay(alignment: .center) {
+            Text(month.title(calendar: viewModel.calendar))
+                .font(.system(size: 40, weight: .semibold, design: .serif))
+                .foregroundStyle(EditorialPalette.ink.opacity(0.06))
+                .allowsHitTesting(false)
+        }
+    }
+}
+
 private struct DayCell: View {
     let day: CalendarDay
     let isSelected: Bool
+    let isToday: Bool
     let entry: SealedDiaryEntry?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(day.date.formatted(.dateTime.day()))
-                .font(.system(size: 13, weight: .medium, design: .default))
-                .foregroundStyle(day.isInDisplayedMonth ? EditorialPalette.ink : EditorialPalette.muted.opacity(0.5))
+                .font(.system(size: 13, weight: isToday ? .bold : .medium, design: .default))
+                .foregroundStyle(EditorialPalette.ink)
+                .underline(isToday, color: EditorialPalette.ink)
 
             Spacer(minLength: 0)
 
@@ -257,8 +317,8 @@ private struct HeaderBanner: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 7)
                         .background(EditorialPalette.warning)
-                } else {
-                    Text("Hover the lines to let the day move.")
+                } else if let savedAt = viewModel.draftSavedAt {
+                    Text("Draft saved \(savedAt.formatted(date: .omitted, time: .shortened))")
                         .font(.system(size: 11, weight: .regular, design: .default))
                         .foregroundStyle(EditorialPalette.muted)
                 }

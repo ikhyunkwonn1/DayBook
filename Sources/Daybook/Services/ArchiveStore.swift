@@ -6,6 +6,8 @@ protocol ArchiveStore {
     func create(from draft: DiaryEntryDraft) throws -> SealedDiaryEntry
     func readPayload(for entry: SealedDiaryEntry) throws -> ArchivedEntryPayload
     func export(entry: SealedDiaryEntry, to destinationURL: URL) throws
+    func loadDrafts() throws -> [String: DiaryEntryDraft]
+    func saveDrafts(_ drafts: [String: DiaryEntryDraft]) throws
 }
 
 final class LocalArchiveStore: ArchiveStore {
@@ -14,6 +16,7 @@ final class LocalArchiveStore: ArchiveStore {
     private let rootURL: URL
     private let archiveDirectoryURL: URL
     private let indexURL: URL
+    private let draftsURL: URL
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
 
@@ -36,6 +39,7 @@ final class LocalArchiveStore: ArchiveStore {
         self.rootURL = baseRoot
         self.archiveDirectoryURL = baseRoot.appendingPathComponent("Entries", isDirectory: true)
         self.indexURL = baseRoot.appendingPathComponent("entry-index.json")
+        self.draftsURL = baseRoot.appendingPathComponent("drafts.json")
 
         self.encoder = JSONEncoder()
         self.decoder = JSONDecoder()
@@ -54,6 +58,10 @@ final class LocalArchiveStore: ArchiveStore {
     func create(from draft: DiaryEntryDraft) throws -> SealedDiaryEntry {
         let text = draft.text.trimmed()
         guard !text.isEmpty else { throw DiaryError.emptyText }
+
+        guard calendar.startOfDay(for: draft.date) <= calendar.startOfDay(for: Date()) else {
+            throw DiaryError.futureDate
+        }
 
         var index = try loadIndex()
         let key = draft.date.diaryKey(calendar: calendar)
@@ -114,6 +122,19 @@ final class LocalArchiveStore: ArchiveStore {
         } catch {
             throw DiaryError.exportFailed
         }
+    }
+
+    func loadDrafts() throws -> [String: DiaryEntryDraft] {
+        try ensureStorage()
+        guard fileManager.fileExists(atPath: draftsURL.path) else { return [:] }
+        let data = try Data(contentsOf: draftsURL)
+        return try decoder.decode([String: DiaryEntryDraft].self, from: data)
+    }
+
+    func saveDrafts(_ drafts: [String: DiaryEntryDraft]) throws {
+        try ensureStorage()
+        let data = try encoder.encode(drafts)
+        try data.write(to: draftsURL, options: .atomic)
     }
 
     private func ensureStorage() throws {

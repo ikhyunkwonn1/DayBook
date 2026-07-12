@@ -7,7 +7,7 @@ struct MoodCard: Codable, Equatable {
     var icon: String
 }
 
-struct DiaryEntryDraft: Equatable {
+struct DiaryEntryDraft: Codable, Equatable {
     var date: Date
     var text: String = ""
     var moodCard: MoodCard?
@@ -32,9 +32,37 @@ struct ArchivedEntryPayload: Codable, Equatable {
 }
 
 struct CalendarDay: Identifiable, Hashable {
-    let id = UUID()
+    var id: Date { date }
     let date: Date
     let isInDisplayedMonth: Bool
+}
+
+struct MonthID: Hashable, Identifiable {
+    let year: Int
+    let month: Int
+
+    var id: Self { self }
+
+    init(date: Date, calendar: Calendar) {
+        let components = calendar.dateComponents([.year, .month], from: date)
+        self.year = components.year ?? 1
+        self.month = components.month ?? 1
+    }
+
+    func startDate(calendar: Calendar) -> Date {
+        calendar.date(from: DateComponents(year: year, month: month, day: 1)) ?? Date()
+    }
+
+    func title(calendar: Calendar) -> String {
+        startDate(calendar: calendar).formatted(.dateTime.month(.wide).year())
+    }
+
+    static func range(around date: Date, radius: Int, calendar: Calendar) -> [MonthID] {
+        (-radius...radius).compactMap { offset in
+            calendar.date(byAdding: .month, value: offset, to: date)
+                .map { MonthID(date: $0, calendar: calendar) }
+        }
+    }
 }
 
 struct MoodSuggestion: Equatable {
@@ -57,6 +85,7 @@ enum DiaryError: LocalizedError {
     case alreadySealed
     case entryNotFound
     case emptyText
+    case futureDate
     case exportFailed
 
     var errorDescription: String? {
@@ -67,6 +96,8 @@ enum DiaryError: LocalizedError {
             return "The archived entry could not be found."
         case .emptyText:
             return "Write something before sealing the entry."
+        case .futureDate:
+            return "Some days are still on their way. This one cannot be sealed yet."
         case .exportFailed:
             return "The archive could not be exported."
         }

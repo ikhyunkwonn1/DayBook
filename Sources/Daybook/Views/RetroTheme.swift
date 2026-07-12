@@ -330,15 +330,6 @@ struct EditorialTextButtonStyle: ButtonStyle {
     }
 }
 
-struct EditorialIconButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.system(size: 16, weight: .regular, design: .default))
-            .foregroundStyle(configuration.isPressed ? EditorialPalette.muted : EditorialPalette.ink)
-            .frame(width: 30, height: 30)
-    }
-}
-
 struct EditorialTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration

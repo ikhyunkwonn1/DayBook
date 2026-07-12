@@ -2,9 +2,21 @@ import Foundation
 
 protocol DailyHeadingProviding {
     func heading(for date: Date, calendar: Calendar) -> String
+    func futureHeading(for date: Date, calendar: Calendar) -> String
 }
 
 struct DailyHeadingService: DailyHeadingProviding {
+    func futureHeading(for date: Date, calendar: Calendar) -> String {
+        let selectedDate = calendar.startOfDay(for: date)
+        let index = stableIndex(
+            for: selectedDate,
+            calendar: calendar,
+            count: Self.futureHeadings.count,
+            salt: "future"
+        )
+        return Self.futureHeadings[index]
+    }
+
     func heading(for date: Date, calendar: Calendar) -> String {
         let selectedDate = calendar.startOfDay(for: date)
         let candidate = baseHeading(for: selectedDate, calendar: calendar)
@@ -47,6 +59,18 @@ struct DailyHeadingService: DailyHeadingProviding {
         let remainder = value % divisor
         return remainder >= 0 ? remainder : remainder + divisor
     }
+
+    private static let futureHeadings: [String] = [
+        "The future is a page the ink hasn't found yet.",
+        "Somewhere ahead, this day is still deciding what it will be.",
+        "No one has written this day. Not even you.",
+        "This one is still being imagined.",
+        "Tomorrow keeps its secrets. Come back when it tells you one.",
+        "The day is still on its way to you.",
+        "Let it arrive first. It will bring its own words.",
+        "Some days are still walking toward you.",
+        "Wait for the day to arrive, then let it leave a mark."
+    ]
 
     // Each group is disjoint so a line cannot recur on either of the next two days.
     private static let headings: [[String]] = [
