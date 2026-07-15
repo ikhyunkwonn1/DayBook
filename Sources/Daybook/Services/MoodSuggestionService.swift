@@ -59,12 +59,12 @@ struct LocalMoodSuggestionService: MoodSuggestionService {
         .map(\.0)
 
         if ranked.isEmpty {
-            return MoodPreset.defaults.prefix(3).map {
+            return MoodPreset.defaults.prefix(1).map {
                 MoodSuggestion(card: $0.card, reason: "A default preset for when the text gives no strong signal.")
             }
         }
 
-        return Array(ranked.prefix(3))
+        return Array(ranked.prefix(1))
     }
 }
 

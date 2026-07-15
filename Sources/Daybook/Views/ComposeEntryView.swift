@@ -162,13 +162,9 @@ private struct MoodSelectionSheet: View {
 
                     SectionHeading(title: "Custom mood", detail: "make it yours")
 
-                    VStack(spacing: 3) {
-                        TextField("Mood label (optional)", text: $moodLabel)
-                        TextField("Color hex", text: $moodColorHex)
-                        TextField("SF Symbol icon", text: $moodIcon)
-                    }
-                    .textFieldStyle(EditorialTextFieldStyle())
-                    .padding(.top, 8)
+                    TextField("Mood label (optional)", text: $moodLabel)
+                        .textFieldStyle(EditorialTextFieldStyle())
+                        .padding(.top, 8)
 
                     HStack(spacing: 10) {
                         if let selectedMood {

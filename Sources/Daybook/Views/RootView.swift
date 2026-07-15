@@ -57,7 +57,7 @@ private struct CalendarSidebarView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .firstTextBaseline) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("DayBook")
+                        Text("daybook")
                             .font(.system(size: 21, weight: .semibold, design: .default))
                         Text("A calendar for private thoughts")
                             .font(.system(size: 10, weight: .regular, design: .default))

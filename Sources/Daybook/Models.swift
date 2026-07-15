@@ -111,7 +111,10 @@ extension MoodPreset {
         MoodPreset(label: "Tender", colorHex: "#B56576", icon: "heart.fill"),
         MoodPreset(label: "Restless", colorHex: "#546A7B", icon: "wind"),
         MoodPreset(label: "Focused", colorHex: "#567C8D", icon: "pencil.line"),
-        MoodPreset(label: "Dreamy", colorHex: "#7E6B8F", icon: "moon.stars.fill")
+        MoodPreset(label: "Dreamy", colorHex: "#7E6B8F", icon: "moon.stars.fill"),
+        MoodPreset(label: "Grateful", colorHex: "#B9924B", icon: "hands.sparkles.fill"),
+        MoodPreset(label: "Weary", colorHex: "#6E6A63", icon: "zzz"),
+        MoodPreset(label: "Hopeful", colorHex: "#7A9E8E", icon: "sunrise.fill")
     ]
 }
 
