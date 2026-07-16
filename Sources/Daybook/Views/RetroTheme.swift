@@ -42,15 +42,70 @@ struct EditorialScanlines: View {
 }
 
 struct EditorialHeroArt: NSViewRepresentable {
-    func makeNSView(context: Context) -> EditorialHeroLayerView {
-        EditorialHeroLayerView()
+    let artwork: DailyHeroArtwork
+
+    init(date: Date, calendar: Calendar) {
+        artwork = DailyScribbleService().artwork(for: date, calendar: calendar)
     }
 
-    func updateNSView(_ nsView: EditorialHeroLayerView, context: Context) { }
+    func makeNSView(context: Context) -> EditorialHeroLayerView {
+        EditorialHeroLayerView(lineSpecs: artwork.lines, artworkID: artwork.id)
+    }
+
+    func updateNSView(_ nsView: EditorialHeroLayerView, context: Context) {
+        nsView.setLineSpecs(artwork.lines, artworkID: artwork.id)
+    }
+}
+
+struct DailyEditorialHeroArt: View {
+    let calendar: Calendar
+
+    @State private var currentDay: Date
+
+    init(calendar: Calendar) {
+        self.calendar = calendar
+        _currentDay = State(initialValue: calendar.startOfDay(for: Date()))
+    }
+
+    var body: some View {
+        EditorialHeroArt(date: currentDay, calendar: calendar)
+            .task(id: currentDay) {
+                await refreshAtNextMidnight()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged)) { _ in
+                refreshCurrentDay()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                refreshCurrentDay()
+            }
+    }
+
+    @MainActor
+    private func refreshCurrentDay() {
+        let day = calendar.startOfDay(for: Date())
+        if day != currentDay {
+            currentDay = day
+        }
+    }
+
+    private func refreshAtNextMidnight() async {
+        guard let nextDay = calendar.date(byAdding: .day, value: 1, to: currentDay) else { return }
+        let seconds = max(0, nextDay.timeIntervalSinceNow)
+
+        do {
+            try await Task.sleep(for: .seconds(seconds))
+        } catch {
+            return
+        }
+
+        guard !Task.isCancelled else { return }
+        refreshCurrentDay()
+    }
 }
 
 final class EditorialHeroLayerView: NSView {
-    private let lineSpecs = HeroLineSpec.all
+    private var lineSpecs: [HeroLineSpec]
+    private var artworkID: String
     private var lineLayers: [CAShapeLayer] = []
     private var lineCenters: [CGPoint] = []
     private var amplitudes: [CGFloat]
@@ -71,9 +126,11 @@ final class EditorialHeroLayerView: NSView {
 
     override var isFlipped: Bool { true }
 
-    override init(frame frameRect: NSRect) {
+    init(lineSpecs: [HeroLineSpec], artworkID: String) {
+        self.lineSpecs = lineSpecs
+        self.artworkID = artworkID
         amplitudes = Array(repeating: 0, count: lineSpecs.count)
-        super.init(frame: frameRect)
+        super.init(frame: .zero)
         wantsLayer = true
         layer?.isGeometryFlipped = true
         layer?.masksToBounds = false
@@ -82,6 +139,22 @@ final class EditorialHeroLayerView: NSView {
 
     required init?(coder: NSCoder) {
         nil
+    }
+
+    func setLineSpecs(_ lineSpecs: [HeroLineSpec], artworkID: String) {
+        guard artworkID != self.artworkID else { return }
+
+        stopDriftLink()
+        cursor = nil
+        self.lineSpecs = lineSpecs
+        self.artworkID = artworkID
+        amplitudes = Array(repeating: 0, count: lineSpecs.count)
+        lineLayers.forEach { $0.removeFromSuperlayer() }
+        lineLayers.removeAll(keepingCapacity: true)
+        lineCenters.removeAll(keepingCapacity: true)
+        createLineLayers()
+        didPlayEntrance = false
+        needsLayout = true
     }
 
     override func viewDidMoveToWindow() {
@@ -297,7 +370,7 @@ final class EditorialHeroLayerView: NSView {
     }
 }
 
-private struct HeroLineSpec {
+private struct LegacyHeroLineSpec {
     let color: NSColor
     let points: [CGPoint]
     // Sway amplitudes: tx/ty in artwork units, rot in degrees.
@@ -334,12 +407,12 @@ private struct HeroLineSpec {
     }
 
     // Active artwork. Point at `originalScribbles` to restore the meaningless set.
-    static let all: [HeroLineSpec] = moments
+    static let all: [LegacyHeroLineSpec] = moments
 
     // "moments" — each scribble carries one letter's abstract essence (m·o·m·e·n·t·s):
     // a rhythm, an enclosure, a crossing, a reversal — never the letter's silhouette.
     // Geometry matches word-scribbles-preview.html, verified blind-illegible.
-    static let moments: [HeroLineSpec] = [
+    static let moments: [LegacyHeroLineSpec] = [
         // m — a loose loop whose tail ripples in three soft beats
         .init(
             color: NSColor(red: 0.922, green: 0.478, blue: 0.329, alpha: 1),
@@ -432,7 +505,7 @@ private struct HeroLineSpec {
     ]
 
     // The original abstract scribbles, kept for rollback and future daily shuffling.
-    static let originalScribbles: [HeroLineSpec] = [
+    static let originalScribbles: [LegacyHeroLineSpec] = [
         .init(
             color: NSColor(red: 0.922, green: 0.478, blue: 0.329, alpha: 1),
             points: [

@@ -19,6 +19,8 @@
 		A10000000000000000000009 /* SealedEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000019 /* SealedEntryView.swift */; };
 		A10000000000000000000030 /* FutureDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000031 /* FutureDayView.swift */; };
 		A1000000000000000000000A /* DailyHeadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001A /* DailyHeadingService.swift */; };
+		A10000000000000000000034 /* DailyScribbleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000035 /* DailyScribbleService.swift */; };
+		A10000000000000000000036 /* HeroScribbleLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000037 /* HeroScribbleLibrary.swift */; };
 		A1000000000000000000001B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		A10000000000000000000019 /* SealedEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/SealedEntryView.swift; sourceTree = "<group>"; };
 		A10000000000000000000031 /* FutureDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/FutureDayView.swift; sourceTree = "<group>"; };
 		A1000000000000000000001A /* DailyHeadingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/DailyHeadingService.swift; sourceTree = "<group>"; };
+		A10000000000000000000035 /* DailyScribbleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/DailyScribbleService.swift; sourceTree = "<group>"; };
+		A10000000000000000000037 /* HeroScribbleLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/HeroScribbleLibrary.swift; sourceTree = "<group>"; };
 		A1000000000000000000001C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,9 +82,11 @@
 				A10000000000000000000014 /* MoodSuggestionServiceOld.swift */,
 				A10000000000000000000033 /* MoodSuggestionService.swift */,
 				A1000000000000000000001A /* DailyHeadingService.swift */,
+				A10000000000000000000035 /* DailyScribbleService.swift */,
 				A10000000000000000000015 /* DaybookViewModel.swift */,
 				A10000000000000000000016 /* ComposeEntryView.swift */,
 				A10000000000000000000017 /* RetroTheme.swift */,
+				A10000000000000000000037 /* HeroScribbleLibrary.swift */,
 				A10000000000000000000018 /* RootView.swift */,
 				A10000000000000000000019 /* SealedEntryView.swift */,
 				A10000000000000000000031 /* FutureDayView.swift */,
@@ -177,6 +183,8 @@
 				A10000000000000000000009 /* SealedEntryView.swift in Sources */,
 				A10000000000000000000030 /* FutureDayView.swift in Sources */,
 				A1000000000000000000000A /* DailyHeadingService.swift in Sources */,
+				A10000000000000000000034 /* DailyScribbleService.swift in Sources */,
+				A10000000000000000000036 /* HeroScribbleLibrary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

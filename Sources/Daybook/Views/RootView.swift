@@ -297,7 +297,7 @@ private struct HeaderBanner: View {
 
             EditorialRule()
 
-            EditorialHeroArt()
+            DailyEditorialHeroArt(calendar: viewModel.calendar)
                 .frame(height: 184)
                 .padding(.vertical, 16)
 
