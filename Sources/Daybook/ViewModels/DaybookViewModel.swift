@@ -31,7 +31,7 @@ final class DaybookViewModel: ObservableObject {
     init(
         calendar: Calendar = .current,
         archiveStore: ArchiveStore = LocalArchiveStore(),
-        suggestionService: MoodSuggestionService = LocalMoodSuggestionService(),
+        suggestionService: MoodSuggestionService = MoodGridSuggestionEngine(),
         dailyHeadingService: DailyHeadingProviding = DailyHeadingService()
     ) {
         let today = calendar.startOfDay(for: Date())

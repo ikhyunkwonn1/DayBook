@@ -10,7 +10,8 @@
 		A10000000000000000000001 /* DaybookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* DaybookApp.swift */; };
 		A10000000000000000000002 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* Models.swift */; };
 		A10000000000000000000003 /* ArchiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* ArchiveStore.swift */; };
-		A10000000000000000000004 /* MoodSuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* MoodSuggestionService.swift */; };
+		A10000000000000000000004 /* MoodSuggestionServiceOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* MoodSuggestionServiceOld.swift */; };
+		A10000000000000000000032 /* MoodSuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000033 /* MoodSuggestionService.swift */; };
 		A10000000000000000000005 /* DaybookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* DaybookViewModel.swift */; };
 		A10000000000000000000006 /* ComposeEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000016 /* ComposeEntryView.swift */; };
 		A10000000000000000000007 /* RetroTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000017 /* RetroTheme.swift */; };
@@ -27,7 +28,8 @@
 		A10000000000000000000011 /* DaybookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/DaybookApp.swift; sourceTree = "<group>"; };
 		A10000000000000000000012 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Models.swift; sourceTree = "<group>"; };
 		A10000000000000000000013 /* ArchiveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/ArchiveStore.swift; sourceTree = "<group>"; };
-		A10000000000000000000014 /* MoodSuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/MoodSuggestionService.swift; sourceTree = "<group>"; };
+		A10000000000000000000014 /* MoodSuggestionServiceOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/MoodSuggestionServiceOld.swift; sourceTree = "<group>"; };
+		A10000000000000000000033 /* MoodSuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Services/MoodSuggestionService.swift; sourceTree = "<group>"; };
 		A10000000000000000000015 /* DaybookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/ViewModels/DaybookViewModel.swift; sourceTree = "<group>"; };
 		A10000000000000000000016 /* ComposeEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/ComposeEntryView.swift; sourceTree = "<group>"; };
 		A10000000000000000000017 /* RetroTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources/Daybook/Views/RetroTheme.swift; sourceTree = "<group>"; };
@@ -73,7 +75,8 @@
 				A10000000000000000000011 /* DaybookApp.swift */,
 				A10000000000000000000012 /* Models.swift */,
 				A10000000000000000000013 /* ArchiveStore.swift */,
-				A10000000000000000000014 /* MoodSuggestionService.swift */,
+				A10000000000000000000014 /* MoodSuggestionServiceOld.swift */,
+				A10000000000000000000033 /* MoodSuggestionService.swift */,
 				A1000000000000000000001A /* DailyHeadingService.swift */,
 				A10000000000000000000015 /* DaybookViewModel.swift */,
 				A10000000000000000000016 /* ComposeEntryView.swift */,
@@ -165,7 +168,8 @@
 				A10000000000000000000001 /* DaybookApp.swift in Sources */,
 				A10000000000000000000002 /* Models.swift in Sources */,
 				A10000000000000000000003 /* ArchiveStore.swift in Sources */,
-				A10000000000000000000004 /* MoodSuggestionService.swift in Sources */,
+				A10000000000000000000004 /* MoodSuggestionServiceOld.swift in Sources */,
+				A10000000000000000000032 /* MoodSuggestionService.swift in Sources */,
 				A10000000000000000000005 /* DaybookViewModel.swift in Sources */,
 				A10000000000000000000006 /* ComposeEntryView.swift in Sources */,
 				A10000000000000000000007 /* RetroTheme.swift in Sources */,
